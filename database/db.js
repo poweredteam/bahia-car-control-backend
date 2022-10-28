@@ -7,7 +7,7 @@ const dbConnect = async() => {
             sslValidate: true,
             useNewUrlParser: true
         });
-        console.log("conexion exitosa")    
+        console.log("Conectado a database mongo")    
     } catch (error) {
         console.log(error);
         throw new Error("Error en la conexion")

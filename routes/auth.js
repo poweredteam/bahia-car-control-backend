@@ -4,7 +4,7 @@ const { login } = require("../controllers/auth");
 
 router.get("/auth/login", async(req, res) => {
     try {
-        res.send(await login)
+        res.send(await login())
     } catch (error) {
         console.log({
             name: error.name,
