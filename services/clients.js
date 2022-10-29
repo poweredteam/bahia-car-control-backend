@@ -29,7 +29,10 @@ const createClient = async (client) => {
 const clientLicense = async (idClient, license) => {
     const licenseFounded = await License.findOne({ license_plate: license }) //busco si existe la placa
     const clientToUpdate = await Client.findOne({identification: idClient}) //traigo el cliente a actualizar
-    if(!licenseFounded) await Client.findByIdAndUpdate(clientToUpdate, {license_plates: [...clientToUpdate.license_plates, license]}) //si la placa no existe, actualizo
+    if(!licenseFounded) {
+        await License.create({ license_plate: license})
+        await Client.findByIdAndUpdate(clientToUpdate, {license_plates: [...clientToUpdate.license_plates, license]}) //si la placa no existe, actualizo
+    }
     return {
         status: "ClientLicenseRelated",
         msg: PLATE_CREATED
