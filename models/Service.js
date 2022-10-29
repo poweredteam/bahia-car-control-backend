@@ -3,43 +3,43 @@ const {Schema, model} = require('mongoose');
 const services  = new Schema({
     type :{
         type : String,
-        require: true
+        required: true
     },
     cronometer :{
         type : String,
-        requires: true
+        required: true
     },
     datetime : {
         type : String,
-        require: true
+        required: true
     },
     workstation : {
         type : Number,
-        require : true
+        required : true
     },
     technician : {
         type : String,
-        require : true
+        required : true
     },
     driver : {
         type : String,
-        require: false
+        required: false
     },
     kilometers : {
         type : Number,
-        require: true
+        required: true
     },
     goods : {
         type : String,
-        require: true
+        required: true
     },
     vehicle_id : {
         type : String,
-        require: true
+        required: true
     },
     comments : {
         type : String,
-        require : false,    
+        required : false,    
     }
 })
 
