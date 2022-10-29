@@ -22,7 +22,10 @@ const client = new Schema({
         type: String,
         required: true
     },
-    //license_plates: 
+    license_plates: {
+        type: [],
+        required: false
+    } 
 })
 
 module.exports = model('Client', client)

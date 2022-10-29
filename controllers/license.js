@@ -10,11 +10,9 @@ const getLicenses = async(req, res) => {
 }
 
 const createLicenses = async(req, res) => {
-    const { license_plate, id } = req.body;
-    console.log(req.body)
+    const { license_plate } = req.body;
     try {
-        //res.send("hola")
-        res.json(await createLicense({license_plate, id}))
+        res.json(await createLicense({license_plate}))
     } catch (error) {
         console.log({
             name: error.name,

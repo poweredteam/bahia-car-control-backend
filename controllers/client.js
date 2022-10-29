@@ -1,11 +1,11 @@
 const { ERROR } = require("../constans")
-const { createdClient } = require("../services/clients")
+const { createClient, clientLicense, getClient } = require("../services/clients")
 
 
 
 const getClients = async(req, res) => {
     try {
-        res.status(200).send("clients")
+        res.status(200).send(await getClient())
     } catch (error) {
         console.log({
             name: error.name,
@@ -15,10 +15,23 @@ const getClients = async(req, res) => {
     }
 }
 
-const createClient = async(req, res) => {
-    const { identification, name, lastName, phone, email } = req.body
+const createClients = async(req, res) => {
+    const { identification, name, lastName, phone, email, license_plates } = req.body
     try {
-        res.status(200).send(await createdClient({identification, name, lastName, phone, email}))
+        res.status(200).send(await createClient({identification, name, lastName, phone, email, license_plates}))
+    } catch (error) {
+        console.log({
+            name: error.name + "controller",
+            msg: error.message
+        })
+        res.status(400).send(ERROR)
+    }
+}
+
+const licenseClient = async(req, res) => {
+    const { identification, license_plate } = req.body;
+    try {
+        res.status(200).send(await clientLicense(identification, license_plate))
     } catch (error) {
         console.log({
             name: error.name,
@@ -30,5 +43,6 @@ const createClient = async(req, res) => {
 
 module.exports = {
     getClients,
-    createClient
+    createClients,
+    licenseClient
 }
