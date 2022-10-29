@@ -5,10 +5,10 @@ const auth = require("./routes/auth");
 
 const app = express();
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-app.use("/", auth);
+app.use("/api/v1", auth);
 
 module.exports = {app};
