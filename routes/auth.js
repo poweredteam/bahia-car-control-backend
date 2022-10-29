@@ -1,16 +1,9 @@
 const { Router } = require("express");
 const router = Router();
-const { login } = require("../controllers/auth");
+const { login, register } = require("../controllers/auth");
+const {loginValidator} = require('../middleware/loginValidator');
 
-router.get("/auth/login", async(req, res) => {
-    try {
-        res.send(await login())
-    } catch (error) {
-        console.log({
-            name: error.name,
-            msg: error.message
-        })
-    }
-});
+router.post("/auth/login", loginValidator,login);
+router.post("/auth/register" , register);
 
 module.exports = router;
