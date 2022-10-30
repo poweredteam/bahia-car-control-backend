@@ -3,10 +3,7 @@ const License = require("../models/License");
 
 const getLicense = async() => {
     const licenses = await License.find()
-    return {
-        status: "licenses",
-        msg: licenses
-    }
+    return licenses
 }
 
 const createLicense = async(license) => {

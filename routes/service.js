@@ -1,13 +1,13 @@
 const { Router } = require("express");
 const router = Router();
-const {createService, getAllService, getOneServiceByVehicle_id, modifyServices, deleteService} = require('../controllers/services')
-const {serviceValidator} = require('.././middleware/serviceValidator')
+const {createService, getAllService, getServicesByVehicle_id, modifyServices, deleteService, loadDb} = require('../controllers/services')
+const {idValidator, licenseValidator} = require('.././middleware/serviceValidator')
 
-
-router.get('/services', getOneServiceByVehicle_id)
+router.get('/loadDb', loadDb)
+router.get('/servicesbylicence', licenseValidator,   getServicesByVehicle_id)
 router.post('/services', createService)
-router.get('/services', getAllService)
-router.put('/modifyservices', modifyServices)
-router.delete('/deleteservices',serviceValidator,deleteService)
+router.get('/allservices', getAllService)
+router.put('/modifyservices', idValidator,  modifyServices)
+router.delete('/deleteservices',idValidator,deleteService)
 
 module.exports = router
