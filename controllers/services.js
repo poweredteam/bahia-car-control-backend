@@ -1,6 +1,22 @@
 const {createServices, getAllServices, getAllServiceByVehicle_id, modifyService, deleteServices} = require('../services/services')
-const Services = require('../models/Service')
 const {ERROR} = require('.././constans')
+const Products = require('.././models/Products')
+const License = require('.././models/License')
+const Client = require('.././models/Client')
+const productDb = require('.././products.json')
+const clientDb = require('.././clients.json')
+const licenseDb = require('.././licenses.json')
+
+const loadDb = async(req, res) => {
+    try {
+        await Products.insertMany(productDb, console.log('Productos cargados'))
+        await License.insertMany(licenseDb, console.log('Liceencias cargados'))
+        await Client.insertMany(clientDb, console.log('Clientes cargados'))
+        res.status(200).json('datos cargados')
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const createService = async(req, res) =>{
     try {
@@ -26,10 +42,11 @@ const getAllService = async(req, res) =>{
     }
 }
 
-const getOneServiceByVehicle_id = async(req, res) =>{
-    const {vehicle_id} = req.query
+const getServicesByVehicle_id = async(req, res) =>{
+    // const {vehicle_id} = req.query
+    // console.log(req);
     try {
-        res.status(200).json(await getAllServiceByVehicle_id(vehicle_id))    
+        res.status(200).json(await getAllServiceByVehicle_id(req.vehicle_id))    
     } catch (error) {
         console.log({
             name : error.name,
@@ -66,4 +83,4 @@ const deleteService = async(req, res) =>{
     }
 }
 
-module.exports = {createService, getAllService, getOneServiceByVehicle_id, modifyServices, deleteService}
+module.exports = {createService, getAllService, getServicesByVehicle_id, modifyServices, deleteService, loadDb}

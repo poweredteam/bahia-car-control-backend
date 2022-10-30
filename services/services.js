@@ -1,7 +1,12 @@
 const Services = require('../models/Service')
+const Licenses = require('../models/License')
 
 const createServices = async (data) => {
+    const licenseFound = await Licenses.findOne({license_plate : data.vehicle_id})
+    if(!licenseFound) return 'Placa o licencia vehicular no creada'
     const service = await Services.create(data)
+    licenseFound.services = [...licenseFound.services, service]
+    await licenseFound.save()
     return service
 }
 
@@ -11,8 +16,8 @@ const getAllServices = async () =>{
 }
 
 const getAllServiceByVehicle_id = async (data) =>{
-    const oneService = await Services.findOne({vehicle_id : data})
-    return oneService
+    const licenseFound = await Licenses.findOne({license_plate : data})
+    return licenseFound.services
 }
 
 const modifyService = async (id, data) => {

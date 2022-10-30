@@ -5,7 +5,10 @@ const license = new Schema({
         type: String,
         unique: true,
         required: true
-    }
+    },
+    services : {
+        type: []
+    }    
 })
 
 module.exports = model('License', license)
