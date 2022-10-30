@@ -9,12 +9,10 @@ const getLicense = async() => {
     }
 }
 
-const createLicense = async(license, id) => {
-    const client = await Client.findOne({identification: id})
-    const licenseCreated = await License.create(license).populate("client", client.name);
-    //return licenseCreated
+const createLicense = async(license) => {
+    const licenseCreated = await License.create(license);
     return {
-        status: "created",
+        status: "license created",
         msg: licenseCreated
     }
 }
