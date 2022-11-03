@@ -1,4 +1,4 @@
-const { getLicense, createLicense } = require('../services/licenses')
+const { getLicense, createLicense, deleteLicense } = require('../services/licenses')
 
 
 const getLicenses = async(req, res) => {
@@ -21,7 +21,20 @@ const createLicenses = async(req, res) => {
     }
 }
 
+const deleteLicenses = async(req, res) => {
+    const { license, idClient } = req.query;
+    try {
+        res.json(await deleteLicense(license, idClient))
+    } catch (error) {
+        console.log({
+            name: error.name,
+            msg: error.message
+        })
+    }
+}
+
 module.exports = {
     getLicenses,
-    createLicenses
+    createLicenses,
+    deleteLicenses
 }
