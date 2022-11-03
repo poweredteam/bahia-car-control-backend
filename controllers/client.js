@@ -1,5 +1,5 @@
 const { ERROR } = require("../constans")
-const { createClient, clientLicense, getClient } = require("../services/clients")
+const { createClient, RelatedLicenseClient, getClient, getClientByIdAndLicense } = require("../services/clients")
 
 
 
@@ -15,14 +15,30 @@ const getClients = async(req, res) => {
     }
 }
 
+const getClientsByIdAndLicenses = async(req, res) => {
+    const { identification, license_plate } = req.body
+    //console.log(req.body)
+    try {
+        res.status(200).send(await getClientByIdAndLicense(identification, license_plate))
+    } catch (error) {
+        console.log({
+            name: error.name,
+            msg: error.message,
+            path: "controller"
+        })
+        res.status(400).send(ERROR)
+    }
+}
+
 const createClients = async(req, res) => {
     const { identification, name, lastName, phone, email, license_plates } = req.body
     try {
         res.status(200).send(await createClient({identification, name, lastName, phone, email, license_plates}))
     } catch (error) {
         console.log({
-            name: error.name + "controller",
-            msg: error.message
+            name: error.name,
+            msg: error.message,
+            path: "controller"
         })
         res.status(400).send(ERROR)
     }
@@ -31,11 +47,12 @@ const createClients = async(req, res) => {
 const licenseClient = async(req, res) => {
     const { identification, license_plate } = req.body;
     try {
-        res.status(200).send(await clientLicense(identification, license_plate))
+        res.status(200).send(await RelatedLicenseClient(identification, license_plate))
     } catch (error) {
         console.log({
             name: error.name,
-            msg: error.message
+            msg: error.message,
+            path: "controller"
         })
         res.status(400).send(ERROR)
     }
@@ -44,5 +61,6 @@ const licenseClient = async(req, res) => {
 module.exports = {
     getClients,
     createClients,
-    licenseClient
+    licenseClient,
+    getClientsByIdAndLicenses
 }
