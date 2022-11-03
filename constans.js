@@ -3,7 +3,7 @@ const STATUS_SUCCESS = 'Creado'
 const ERROR_LOGIN ="Usuario o password no son correctos"
 const SUCCES_LOGIN = "Usuario autenticado"
 const PLATE_CREATED = "Nueva placa de cliente creada"
-const PLATE_RELATED = "placa de cliente relacionada"
+const PLATE_RELATED = "Placa de cliente relacionada"
 
 module.exports ={
         ERROR,
