@@ -116,9 +116,25 @@ const RelatedLicenseClient = async (idClient, license) => {
     }
 }
 
+const deleteClient = async(idClient) => {
+    const clientToDelete = await Client.findOne({ identification: idClient })
+    const arrLicensesClient = clientToDelete.license_plates
+    console.log(arrLicensesClient)
+    await Promise.all(arrLicensesClient.map(async(c,i) => {
+        console.log({plate: c,index: i})
+        await License.deleteOne({ license_plate: c }) //elimina cada placa del arr de licencias
+    }))
+    await Client.deleteOne({ identification: idClient })
+    return {
+        status: "Client deleted",
+        msg: clientToDelete
+    }
+}
+
 module.exports = {
     getClient,
     createClient,
     RelatedLicenseClient,
-    getClientByIdAndLicense
+    getClientByIdAndLicense,
+    deleteClient
 }

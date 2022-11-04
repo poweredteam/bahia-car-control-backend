@@ -1,5 +1,5 @@
 const { ERROR } = require("../constans")
-const { createClient, RelatedLicenseClient, getClient, getClientByIdAndLicense } = require("../services/clients")
+const { createClient, RelatedLicenseClient, getClient, getClientByIdAndLicense, deleteClient } = require("../services/clients")
 
 
 
@@ -58,9 +58,24 @@ const licenseClient = async(req, res) => {
     }
 }
 
+const deleteClients = async(req, res) => {
+    const { identification } = req.params;
+    try {
+        res.status(200).send(await deleteClient(identification))
+    } catch (error) {
+        console.log({
+            name: error.name,
+            msg: error.message,
+            path: "controller"
+        })
+        res.status(400).send(ERROR)
+    }
+}
+
 module.exports = {
     getClients,
     createClients,
     licenseClient,
-    getClientsByIdAndLicenses
+    getClientsByIdAndLicenses,
+    deleteClients
 }
