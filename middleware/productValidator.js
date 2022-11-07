@@ -2,7 +2,6 @@ const Product = require("../models/Products");
 
 const productValidator = async (req, res, next) => {
     const productFound = await Product.findOne({ _id: req.params.id });
-    console.log(productFound)
     if (!productFound) {
         return res.status(401).json({
             status: false,
