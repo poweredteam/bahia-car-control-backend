@@ -14,10 +14,9 @@ const createLicense = async(license) => {
     }
 }
 
-const deleteLicense = async(license, idClient) => {
-    const clientWithLicenseToDelete = await Client.findOne({ identification: idClient })
-    await Client.findByIdAndUpdate(clientWithLicenseToDelete,{ license_plates: [...clientWithLicenseToDelete.license_plates.filter(l => l !== license)] }) //update del cliente,  filtro la licencia a eliminar
-    const licenseDeleted = await License.findOne({ license_plate: license })
+const deleteLicense = async(license, client) => {
+    await Client.findByIdAndUpdate(client,{ license_plates: [...client.license_plates.filter(l => l !== license)] }) //update del cliente,  filtro la licencia a eliminar
+    const licenseDeleted = await License.findOne({ license_plate: license }) //guardo la licencia a eliminar
     await License.deleteOne({ license_plate: license }) //borra del model License
     return {
         status: "license deleted",

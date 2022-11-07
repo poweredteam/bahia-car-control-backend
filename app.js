@@ -5,6 +5,7 @@ const auth = require("./routes/auth");
 const services = require('./routes/service');
 const license = require('./routes/license');
 const client = require('./routes/client');
+const product = require('./routes/product');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use("/", auth);
 app.use("/", services);
 app.use("/", license);
 app.use("/", client);
+app.use("/", product);
 
 
 module.exports = {app};
