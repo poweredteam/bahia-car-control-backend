@@ -31,9 +31,8 @@ const getClientsByIdAndLicenses = async(req, res) => {
 }
 
 const createClients = async(req, res) => {
-    const { identification, name, lastName, phone, email, license_plates } = req.body
     try {
-        res.status(200).send(await createClient({identification, name, lastName, phone, email, license_plates}))
+        res.status(200).send(await createClient(req.body))
     } catch (error) {
         console.log({
             name: error.name,
@@ -59,9 +58,8 @@ const licenseClient = async(req, res) => {
 }
 
 const deleteClients = async(req, res) => {
-    const { identification } = req.params;
     try {
-        res.status(200).send(await deleteClient(identification))
+        res.status(200).send(await deleteClient(req.idClient))
     } catch (error) {
         console.log({
             name: error.name,

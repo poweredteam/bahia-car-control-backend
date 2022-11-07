@@ -22,9 +22,8 @@ const createLicenses = async(req, res) => {
 }
 
 const deleteLicenses = async(req, res) => {
-    const { license, idClient } = req.query;
     try {
-        res.json(await deleteLicense(license, idClient))
+        res.json(await deleteLicense(req.license, req.client))
     } catch (error) {
         console.log({
             name: error.name,

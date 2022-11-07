@@ -19,7 +19,7 @@ const idValidator = async (req, res, next) => {
     });
     return res.status(404).json({
       status: false,
-      path : 'midlleware'
+      path : 'middleware'
     });
   }
   next();
@@ -31,7 +31,7 @@ const licenseValidator = async(req, res, next) =>{
     return res.status(404).send({
       status : false,
       msg : 'Placa o licencia de transtito no encontrada',
-      path : 'midlleware'
+      path : 'middleware'
     })
   }
   try {
@@ -40,7 +40,7 @@ const licenseValidator = async(req, res, next) =>{
     return res.status(404).json({
       status: false,
       msg: "error middleware",
-      path : 'midlleware'
+      path : 'middleware'
     });
   }
   next();
