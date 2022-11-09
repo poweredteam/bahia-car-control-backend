@@ -1,14 +1,33 @@
 const User = require('../models/User');
-const { STATUS_SUCCESS, ERROR_LOGIN, SUCCES_LOGIN } = require('../constans')
+const bcrypt = require('bcryptjs');
+
+const { EMAIL_ERROR, USER_NOT_FOUND, ERROR_LOGIN } = require('../constans')
 
 const loginValidator = async (req, res, next) => {
-    const user = await User.findOne({ email: req.body.email })
-    if (!user) {
-        return res.status(404).send(ERROR_LOGIN)
+
+    // Email validation 
+    const validEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+
+    if (!validEmail.test(req.body.email)) {
+        return res.status(401).json({
+            status: false,
+            msg: EMAIL_ERROR
+        });
     }
 
-    if (req.body.password !== user.password) {
-        return res.status(404).send(ERROR_LOGIN)
+    const user = await User.findOne({ email: req.body.email })
+
+    if (!user) {
+        return res.status(404).send({ token: null, message: ERROR_LOGIN })
+    }
+
+    if (user.status === false) {
+        return res.status(404).send({ token: null, message: USER_NOT_FOUND })
+    }
+
+    const matchPassword = await bcrypt.compareSync(req.body.password, user.password)
+    if (!matchPassword) {
+        return res.status(404).send({ token: null, message: ERROR_LOGIN })
     }
     next();
 }

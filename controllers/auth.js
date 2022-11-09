@@ -1,9 +1,10 @@
 const { ERROR } = require("../constans");
-const { registers, logins } = require('../services/auth');
+const { registers, logins, refreshTokens, forgotPasswords, createNewPasswords } = require('../services/auth');
 
 const login = async (req, res) => {
+    const { email } = req.body;
     try {
-        res.status(200).send(await logins(req.body.password, req.body.email));
+        res.status(200).send(await logins(email, res));
     } catch (error) {
         console.log({
             name: error.name,
@@ -14,7 +15,6 @@ const login = async (req, res) => {
 }
 
 const register = async (req, res) => {
-
     try {
         res.status(200).send(await registers(req.body));
     } catch (error) {
@@ -26,7 +26,45 @@ const register = async (req, res) => {
     }
 }
 
+const refreshToken = async (req, res) => {
+    try {
+        const refreshToken = req.headers.refresh;
+        res.status(200).send(await refreshTokens(refreshToken, res));
+    } catch (error) {
+        console.log({
+            name: error.name,
+            message: error.message
+        })
+    }
+}
+
+const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body
+        res.status(200).send(await forgotPasswords(email));
+    } catch (error) {
+        console.log({
+            name: error.name,
+            message: error.message
+        })
+    }
+}
+
+const createNewPassword = async (req, res) => {
+    try {
+        res.status(200).send(await createNewPasswords(req));
+    } catch (eror) {
+        console.log({
+            name: eror.name,
+            message: eror.message
+        })
+    }
+}
+
 module.exports = {
     login,
-    register
+    register,
+    refreshToken,
+    forgotPassword,
+    createNewPassword
 };
