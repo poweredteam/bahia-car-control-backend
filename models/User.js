@@ -7,16 +7,29 @@ const userSchema = Schema({
     },
     email: {
         type: String,
+        lowercase:true,
         required: true
     },
     password: {
         type: String,
         required: true
     },
-    rol: {
+    role: {
         type: String,
         default: 'user'
     },
+    status: {
+        type: Boolean,
+        default: true
+    },
+    refreshToken: {
+        type: String,
+        default: null
+    },
+    resetToken:{
+        type: String,
+        default: null
+    }
 }, {
     timestamps: true,
     versionKey: false
