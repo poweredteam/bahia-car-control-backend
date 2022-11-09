@@ -1,6 +1,7 @@
 const Client = require("../models/Client");
 const License = require("../models/License");
 const { PLATE_CREATED, PLATE_RELATED } = require("../constans");
+const { infoLicense } = require("../helpers/infoLicense");
 
 const getClient = async () => {
     const clientFound = await Client.find()
@@ -10,12 +11,12 @@ const getClient = async () => {
     }
 }
 
-const getClientByIdAndLicense = async(idClient, license) => {
+const getClientByIdAndLicense = async (idClient, license) => {
     const clientFound = await Client.findOne({ identification: idClient })
     const licenseFound = await License.findOne({ license_plate: license })
-//crear cliente y licencia
-//flor debe habilitar modal creacion de clientes (incluye placa), ejecuta createClient()  
-    if(!clientFound && !licenseFound) {
+    //crear cliente y licencia
+    //flor debe habilitar modal creacion de clientes (incluye placa), ejecuta createClient()  
+    if (!clientFound && !licenseFound) {
         return {
             client: {
                 status: false,
@@ -28,9 +29,9 @@ const getClientByIdAndLicense = async(idClient, license) => {
             },
         }
     }
-//crear licencia
-//habilitar modal de creacion de licencia, ejecuta RelatedLicenseClient()
-    if(clientFound && !licenseFound) {
+    //crear licencia
+    //habilitar modal de creacion de licencia, ejecuta RelatedLicenseClient()
+    if (clientFound && !licenseFound) {
         return {
             client: {
                 status: true,
@@ -43,8 +44,8 @@ const getClientByIdAndLicense = async(idClient, license) => {
             }
         }
     }
-//todo ok, crea servicio
-    if(clientFound && clientFound.license_plates.find(l => l === license)) {
+    //todo ok, crea servicio
+    if (clientFound && clientFound.license_plates.find(l => l === license)) {
         return {
             client: {
                 status: true,
@@ -57,27 +58,27 @@ const getClientByIdAndLicense = async(idClient, license) => {
             }
         }
     }
-//cliente y licencia existe pero no hay relacion, ejecuta RelatedLicenseClient()
+    //cliente y licencia existe pero no hay relacion, ejecuta RelatedLicenseClient()
     const licensePlateRelated = clientFound.license_plates.find(l => l === license)
-    if(clientFound && licenseFound && !licensePlateRelated) {
-            return {
-                client: {
-                    status: true,
-                    body: clientFound
-                },
-                license: {
-                    status: true,
-                    isRelated: false,
-                    body: licenseFound
-                }
+    if (clientFound && licenseFound && !licensePlateRelated) {
+        return {
+            client: {
+                status: true,
+                body: clientFound
+            },
+            license: {
+                status: true,
+                isRelated: false,
+                body: licenseFound
             }
         }
     }
+}
 
 const createClient = async (client) => {
     const arrClean = Array.from(new Set([...client.license_plates])) //sacar repetidos
     client.license_plates = arrClean //modifico el obj
-    await Promise.all(arrClean.map(async(c,i) => {
+    await Promise.all(arrClean.map(async (c, i) => {
         //console.log({plate: c,index: i})
         const licenseFound = await License.findOne({ license_plate: c }) //busca la placa
         //console.log("licenseFound",licenseFound)
@@ -92,23 +93,23 @@ const createClient = async (client) => {
 
 const RelatedLicenseClient = async (idClient, license) => {
     const licenseFounded = await License.findOne({ license_plate: license }) //busco si existe la placa
-    const clientToUpdate = await Client.findOne({identification: idClient}) //traigo el cliente a actualizar
-    if(!clientToUpdate) {
+    const clientToUpdate = await Client.findOne({ identification: idClient }) //traigo el cliente a actualizar
+    if (!clientToUpdate) {
         return {
             status: false,
             msg: "Client not found"
         }
     }
-    if(!licenseFounded) {
-        await License.create({ license_plate: license})
-        await Client.findByIdAndUpdate(clientToUpdate, {license_plates: [...clientToUpdate.license_plates, license]}) //si la placa no existe, actualizo
+    if (!licenseFounded) {
+        await License.create({ license_plate: license })
+        await Client.findByIdAndUpdate(clientToUpdate, { license_plates: [...clientToUpdate.license_plates, license] }) //si la placa no existe, actualizo
         return {
             status: "License created and related",
             msg: PLATE_CREATED
         }
     }
     else {
-        await Client.findByIdAndUpdate(clientToUpdate, {license_plates: [...clientToUpdate.license_plates, license]})         
+        await Client.findByIdAndUpdate(clientToUpdate, { license_plates: [...clientToUpdate.license_plates, license] })
     }
     return {
         status: "License related",
@@ -116,10 +117,16 @@ const RelatedLicenseClient = async (idClient, license) => {
     }
 }
 
-const deleteClient = async(idClient) => {
+const deleteClient = async (idClient) => {
+    if(await infoLicense(idClient)) {
+        return {
+            status: "Error",
+            msg: "Ya tiene servicios asociados"
+        }
+    }
     const clientToDelete = await Client.findOne({ identification: idClient })
     const arrLicensesClient = clientToDelete.license_plates
-    await Promise.all(arrLicensesClient.map(async(c,i) => {
+    await Promise.all(arrLicensesClient.map(async c => {
         await License.deleteOne({ license_plate: c }) //elimina cada placa del arr de licencias
     }))
     await Client.deleteOne({ identification: idClient })
@@ -134,5 +141,6 @@ module.exports = {
     createClient,
     RelatedLicenseClient,
     getClientByIdAndLicense,
-    deleteClient
+    deleteClient,
+    infoLicense
 }
