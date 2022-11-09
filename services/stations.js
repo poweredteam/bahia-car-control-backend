@@ -15,7 +15,8 @@ const createStation = async(workStation) => {
 }
 
 const deleteStation = async(id) => {
-    const stationDeleted = await Station.deleteOne({ _id: id })
+    const stationDeleted = await Station.findOne({ _id: id })
+    await Station.deleteOne({ _id: id })
     return {
         status: "Estación eliminada",
         msg: stationDeleted
