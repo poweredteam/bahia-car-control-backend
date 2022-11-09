@@ -6,6 +6,7 @@ const services = require('./routes/service');
 const license = require('./routes/license');
 const client = require('./routes/client');
 const product = require('./routes/product');
+const station = require('./routes/station');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use("/", services);
 app.use("/", license);
 app.use("/", client);
 app.use("/", product);
+app.use("/", station);
 
 
 module.exports = {app};

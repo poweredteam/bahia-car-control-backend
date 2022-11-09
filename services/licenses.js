@@ -14,6 +14,7 @@ const createLicense = async(license) => {
     }
 }
 
+//REVISAR ESTO, QUE BORRE SOLO SI LA PLACA NO TIENE SERVICIO
 const deleteLicense = async(license, client) => {
     await Client.findByIdAndUpdate(client,{ license_plates: [...client.license_plates.filter(l => l !== license)] }) //update del cliente,  filtro la licencia a eliminar
     const licenseDeleted = await License.findOne({ license_plate: license }) //guardo la licencia a eliminar
