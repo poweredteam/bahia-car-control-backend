@@ -1,4 +1,4 @@
-const { getLicense, createLicense } = require('../services/licenses')
+const { getLicense, createLicense, deleteLicense } = require('../services/licenses')
 
 
 const getLicenses = async(req, res) => {
@@ -10,11 +10,20 @@ const getLicenses = async(req, res) => {
 }
 
 const createLicenses = async(req, res) => {
-    const { license_plate, id } = req.body;
-    console.log(req.body)
+    const { license_plate } = req.body;
     try {
-        //res.send("hola")
-        res.json(await createLicense({license_plate, id}))
+        res.json(await createLicense({license_plate}))
+    } catch (error) {
+        console.log({
+            name: error.name,
+            msg: error.message
+        })
+    }
+}
+
+const deleteLicenses = async(req, res) => {
+    try {
+        res.json(await deleteLicense(req.license, req.client))
     } catch (error) {
         console.log({
             name: error.name,
@@ -25,5 +34,6 @@ const createLicenses = async(req, res) => {
 
 module.exports = {
     getLicenses,
-    createLicenses
+    createLicenses,
+    deleteLicenses
 }

@@ -8,6 +8,9 @@ const license = require('./routes/license');
 const client = require('./routes/client');
 const user = require('./routes/user');
 const tech = require('./routes/tech');
+const product = require('./routes/product');
+const station = require('./routes/station');
+
 
 const app = express();
 
@@ -25,8 +28,13 @@ app.use("/", auth);
 app.use("/", services);
 app.use("/", license);
 app.use("/", client);
+
 app.use("/", user);
 app.use("/", tech);
+
+app.use("/", product);
+app.use("/", station);
+
 
 
 module.exports = {app};
