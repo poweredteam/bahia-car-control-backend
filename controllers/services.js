@@ -42,11 +42,11 @@ const getAllService = async(req, res) =>{
     }
 }
 
-const getServicesByVehicle_id = async(req, res) =>{
+const getServicesByVehicleid = async(req, res) =>{
     // const {vehicle_id} = req.query
     // console.log(req);
     try {
-        res.status(200).json(await getAllServiceByVehicle_id(req.vehicle_id))    
+        res.status(200).json(await getAllServiceByVehicle_id(req.vehicle_id))
     } catch (error) {
         console.log({
             name : error.name,
@@ -83,4 +83,4 @@ const deleteService = async(req, res) =>{
     }
 }
 
-module.exports = {createService, getAllService, getServicesByVehicle_id, modifyServices, deleteService, loadDb}
+module.exports = {createService, getAllService, getServicesByVehicleid, modifyServices, deleteService, loadDb}
