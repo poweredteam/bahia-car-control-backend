@@ -55,10 +55,9 @@ const registers = async (data) => {
 
 const logins = async (email, res) => {
     const user = await User.findOne({ email });
-
     if (!user) {
         return {
-            status: USER_NOT_FOUND
+            status: res.status(400).send({ msg:  USER_NOT_FOUND })
         }
     }
 
@@ -108,12 +107,11 @@ const refreshTokens = async (refreshToken, res) => {
     }
 }
 
-const forgotPasswords = async (email) => {
+const forgotPasswords = async (email, res) => {
 
     if (!email) {
         return {
-            status: 400,
-            message: EMAIL_ERROR
+            message: res.status(400).send({ msg:  EMAIL_ERROR })
         }
     }
 
@@ -132,6 +130,7 @@ const forgotPasswords = async (email) => {
     } catch (error) {
         return {
             message: USER_NOT_FOUND,
+            status: res.status(400),
             error
         }
     }
@@ -148,6 +147,7 @@ const forgotPasswords = async (email) => {
     } catch (error) {
         return {
             message: "El email no pudo ser enviado",
+            status: res.status(400),
             error
         }
     }
@@ -157,12 +157,12 @@ const forgotPasswords = async (email) => {
     }
 }
 
-const createNewPasswords = async (data) => {
+const createNewPasswords = async (data, res) => {
     const { newPassword } = data.body
     const resetToken = data.headers['reset']
     if (!resetToken && newPassword) {
         return {
-            status: 400,
+            status: res.status(400),
             message: "Todos los campos son requeridos"
         }
     }
@@ -170,7 +170,7 @@ const createNewPasswords = async (data) => {
     // Password validation
     if (newPassword.length < 8) {
         return {
-            status: 404,
+            status: res.status(400),
             msg: "Por favor ingresa un password de maximo 8 carateres",
         };
     }
@@ -184,7 +184,7 @@ const createNewPasswords = async (data) => {
         user = await User.findOne({ email: jwtPayload.email });
     } catch (error) {
         return {
-            status: 400,
+            status: res.status(400),
             message: error
         }
     }
@@ -196,7 +196,7 @@ const createNewPasswords = async (data) => {
         await user.save();
     } catch (error) {
         return {
-            status: 400,
+            status: res.status(400),
             message: error
         }
     }
