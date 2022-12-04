@@ -109,7 +109,7 @@ const refreshTokens = async (refreshToken, res) => {
 }
 
 const forgotPasswords = async (email) => {
-
+    console.log(email)
     if (!email) {
         return {
             status: 400,
