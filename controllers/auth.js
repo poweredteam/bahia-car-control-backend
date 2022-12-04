@@ -35,29 +35,32 @@ const refreshToken = async (req, res) => {
             name: error.name,
             message: error.message
         })
+        res.status(400).send({ msg: ERROR });
     }
 }
 
 const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body
-        res.status(200).send(await forgotPasswords(email));
+        res.status(200).send(await forgotPasswords(email, res));
     } catch (error) {
         console.log({
             name: error.name,
             message: error.message
         })
+        res.status(400).send({ msg: ERROR });
     }
 }
 
 const createNewPassword = async (req, res) => {
     try {
-        res.status(200).send(await createNewPasswords(req));
+        res.status(200).send(await createNewPasswords(req, res));
     } catch (eror) {
         console.log({
             name: eror.name,
             message: eror.message
         })
+        res.status(400).send({ msg: ERROR });
     }
 }
 
