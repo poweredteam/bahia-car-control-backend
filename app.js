@@ -10,6 +10,7 @@ const user = require('./routes/user');
 const tech = require('./routes/tech');
 const product = require('./routes/product');
 const station = require('./routes/station');
+const types = require('./routes/types.routes');
 
 
 const app = express();
@@ -28,12 +29,11 @@ app.use("/", auth);
 app.use("/", services);
 app.use("/", license);
 app.use("/", client);
-
 app.use("/", user);
 app.use("/", tech);
-
 app.use("/", product);
 app.use("/", station);
+app.use("/", types);
 
 
 

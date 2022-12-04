@@ -14,7 +14,7 @@ const services  = new Schema({
         required: true
     },
     workstation : {
-        type : Number,
+        type : String,
         required : true
     },
     technician : {
@@ -26,11 +26,11 @@ const services  = new Schema({
         required: false
     },
     kilometers : {
-        type : Number,
+        type : String,
         required: true
     },
     goods : {
-        type : String,
+        type : Array,
         required: true
     },
     vehicle_id : {
