@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 require('dotenv').config();
 
-//Send Email
+
+// Send email
 
 const transporter = nodemailer.createTransport({
     host: process.env.HOST_GMAIL,
@@ -13,7 +14,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-transporter.verify().then(()=>{
+transporter.verify().then(() => {
     console.log("Listo para enviar emails");
 });
 
