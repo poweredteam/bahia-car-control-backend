@@ -62,7 +62,6 @@ const getClientByIdAndLicense = async (idClient, license) => {
         }
     }
 }
-
 // esta se usa cuando el cliente no existe, toma el el input de la licencia, crea y relaciona al cliente nuevo con la licencia
 const createClient = async (client) => {
     // const arrClean = Array.from(new Set([...client.license_plates])) //sacar repetidos
