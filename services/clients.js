@@ -23,17 +23,6 @@ const getClientByIdAndLicense = async (idClient, license) => {
             isRelated : false,
             data : ''
         }
-        // return {
-        //     client: {
-        //         status: false,
-        //         body: {}
-        //     },
-        //     license: {
-        //         status: false,
-        //         isRelated: false,
-        //         body: {}
-        //     },
-        // }
     }
     //crear licencia
     //habilitar modal de creacion de licencia, ejecuta RelatedLicenseClient()
@@ -44,18 +33,6 @@ const getClientByIdAndLicense = async (idClient, license) => {
             isRelated : false,
             data : clientFound
         }
-        // return {
-        //     client: {
-        //         status: true,
-        //         body: clientFound
-        //     },
-        //     license: {
-        //         status: false,
-        //         isRelated: false,
-        //         body: {}
-        //     }
-        // }
-
     }
     if (!clientFound && licenseFound) {
         return {
@@ -63,17 +40,6 @@ const getClientByIdAndLicense = async (idClient, license) => {
             license : true,
             isRelated : false
         }
-        // return {
-        //     client: {
-        //         status: true,
-        //         body: clientFound
-        //     },
-        //     license: {
-        //         status: false,
-        //         isRelated: false,
-        //         body: {}
-        //     }
-        // }
     }
 
     //todo ok, crea servicio
@@ -84,17 +50,6 @@ const getClientByIdAndLicense = async (idClient, license) => {
             isRelated : true,
             data : clientFound
         }
-        // return {
-        //     client: {
-        //         status: true,
-        //         body: clientFound
-        //     },
-        //     license: {
-        //         status: true,
-        //         isRelated: true,
-        //         body: licenseFound
-        //     }
-        // }
     }
     //cliente y licencia existe pero no hay relacion, ejecuta RelatedLicenseClient()
     const licensePlateRelated = clientFound.license_plates.find(l => l === license)
@@ -105,17 +60,6 @@ const getClientByIdAndLicense = async (idClient, license) => {
             isRelated : false,
             data: clientFound
         }
-        // return {
-        //     client: {
-        //         status: true,
-        //         body: clientFound
-        //     },
-        //     license: {
-        //         status: true,
-        //         isRelated: false,
-        //         body: licenseFound
-        //     }
-        // }
     }
 }
 
