@@ -19,7 +19,7 @@ const getClientByIdAndLicense = async (idClient, license) => {
     if (!clientFound && !licenseFound) {
         return {
             client : false,
-            licence : false,
+            license : false,
             isRelated : false,
             data : ''
         }
@@ -40,7 +40,7 @@ const getClientByIdAndLicense = async (idClient, license) => {
     if (clientFound && !licenseFound) {
         return {
             client : true,
-            licence : false,
+            license : false,
             isRelated : false,
             data : clientFound
         }
@@ -60,7 +60,7 @@ const getClientByIdAndLicense = async (idClient, license) => {
     if (!clientFound && licenseFound) {
         return {
             client : false,
-            licence : true,
+            license : true,
             isRelated : false
         }
         // return {
@@ -80,7 +80,7 @@ const getClientByIdAndLicense = async (idClient, license) => {
     if (clientFound && clientFound.license_plates.find(l => l === license)) {
         return {
             client : true,
-            licence : true,
+            license : true,
             isRelated : true,
             data : clientFound
         }
@@ -101,7 +101,7 @@ const getClientByIdAndLicense = async (idClient, license) => {
     if (clientFound && licenseFound && !licensePlateRelated) {
         return {
             client : true,
-            licence : true,
+            license : true,
             isRelated : false,
             data: clientFound
         }
