@@ -124,7 +124,7 @@ const forgotPasswords = async (email, res) => {
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET_RESET, {
             expiresIn: '1h'
         })
-        verificationLink = `${process.env.FRONTEND_URL}/auth/new-password?token=${token}`;
+        verificationLink = `${process.env.FRONTEND_URL}/auth/new-password/${token}`;
         user.resetToken = token;
         user.save();
     } catch (error) {
