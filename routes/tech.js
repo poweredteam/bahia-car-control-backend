@@ -10,8 +10,10 @@ const router = Router();
 
 router.get('/tech', getAllTechnician)
 router.get('/gettech', getOneTechbicianById)
-router.post('/tech', [verifyToken, isAdmin], createTechnician)
+router.post('/tech', createTechnician)
 router.put('/modytech', [verifyToken, isAdmin], modifyTechnician)
 router.delete('/deletetech', [verifyToken, isAdmin], techValidator, deleteTechnician)
 
 module.exports = router
+
+// , [verifyToken, isAdmin] esto va como middleware en el post del createtecnician
